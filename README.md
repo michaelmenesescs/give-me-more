@@ -1,1 +1,2 @@
 # give-me-more
+This is a project I wrote using the Spotify OAuth 2.0 Three Legged Flow API as well as using the TasteDive API in order to get a better understanding on how Authentication works in the backend. I used Node.js to handle the backend. It makes all of the HTTP/S calls in the backend and then finally serves the client some results. The project could use some better styling but I decided to just let this one be in order to focus on newer projects!
