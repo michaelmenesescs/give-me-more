@@ -1,0 +1,29 @@
+title CS355 Final Project
+
+participant Spotify API
+
+participant Client
+participant My App
+
+Client -> My App:Client requests "/" (root)
+My App -> Client: 200, returns index.html
+Client -> My App: User presses button to login to Spotify
+note over Client, My App:Begin OAuth
+My App -> Client:302 Redirect to https://accounts.spotify.com/authorize + {client_id, scope, redirect_uri, response_type}
+
+Spotify API <- Client:User logins into their Spotify Account
+
+note over Spotify API,Client:Spotify authorizes Client, 302 redirect back to our server
+Spotify API -> My App:Returns code which contains our permission for us to access our client's data.
+My App -> Spotify API:POST request for access_token containing {grant_type, code, redirect_uri} as well as our client_id and client_secret encoded in base64 in the HTTPS Header
+Spotify API -> My App: 200, returns access_token and refresh_token
+
+note over Client, My App:End OAuth
+My App ->Spotify API: GET user's recently played tracks according to Spotify API documentation
+
+Spotify API ->My App: Returns client's most recently played tracks according to specified scope in JSON
+
+note over My App: Maps most recently played artists to array and creates a query string for TasteDive API
+My App -> TasteDive API:Sends Query String and apiKey to TasteDive API at https://tastedive.com/api/similar?q=(query)&k={key}to get similar artists
+TasteDive API -> My App:TasteDive API returns similiar artists according to querystring parameters
+My App -> Client: Displays most recently played tracks as well as suggestions on what to listen to next.
